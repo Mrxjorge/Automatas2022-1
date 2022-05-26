@@ -11,4 +11,5 @@ B.cargar_automata('Data/automata2.json')
 
 O = Operaciones()
 
-O.complemento(A)
+complemento = O.complemento(A)
+complemento.imprimirAutomata()
