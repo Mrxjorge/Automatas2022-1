@@ -83,22 +83,27 @@ class Automata():
 
     def imprimirTransiciones(self):
         for i in range(len(self.ListaTransiciones)):
-            print("Origen: {0}  -  Destino: {1}  :  Valor:{2}".format(self.ListaTransiciones[i].getOrigen(
-            ), self.ListaTransiciones[i].getDestino(), self.ListaTransiciones[i].getValor()))
+            print("Origen: {0}  -  Destino: {1}  :  Valor:{2}".format(self.ListaTransiciones[i].getOrigen(), self.ListaTransiciones[i].getDestino(), self.ListaTransiciones[i].getValor()))
 
     def imprimirAutomata(self):
         self.imprimirTransiciones()
         self.imprimirEstados()
         print(self.Alfabeto)
-
-
-
-
-
-
-
-
-
-
-
-
+        
+    def invertirTransiciones(self):
+        for transicion in self.ListaTransiciones:
+            tmp = transicion.origen
+            transicion.origen = transicion.destino
+            transicion.destino = tmp
+            
+    def borrarEstado(self, dato):
+        for estado in self.ListaEstados:
+            if estado.dato == dato:
+                self.ListaEstados.remove(estado)
+                self.borrarTransicion(dato)
+                break
+            
+    def borrarTransicion(self, dato):
+        for transicion in self.ListaTransiciones:
+            if transicion.origen == dato or transicion.destino == dato:
+                self.ListaTransiciones.remove(transicion)

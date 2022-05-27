@@ -1,12 +1,12 @@
 class Transicion():
 
     def __init__(self,Origen,Destino, valor):
-        self.Origen=Origen
+        self.origen=Origen
         self.valor = valor
         self.destino = Destino
 
     def getOrigen(self):
-        return self.Origen
+        return self.origen
 
     def getDestino(self):
         return  self.destino
@@ -15,7 +15,7 @@ class Transicion():
         return self.valor
 
     def setOrigen(self, origen):
-        self.Origen = origen
+        self.origen = origen
 
     def setDestino(self, destino):
         self.destino = destino
