@@ -15,6 +15,7 @@ O = Operaciones()
 # complemento.imprimirAutomata()
 
 # A.invertirTransiciones()
+# A.borrarEstado('3')
+# A.imprimirAutomata()
 
-A.borrarEstado('1')
-A.imprimirAutomata()
+O.reverso(A)

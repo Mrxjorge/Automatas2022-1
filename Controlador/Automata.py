@@ -11,6 +11,7 @@ class Automata():
         self.ListaEstados = []
         self.ListaTransiciones = []
         self.Alfabeto = []
+        self.estadosAceptacion = []
         self.ruta = ''
 
     def cargar_automata(self, ruta):
@@ -32,6 +33,7 @@ class Automata():
                         E = self.ObtenerO(estado2)
                         if E:
                             E.setEstadoAceptacion(True)
+                        self.estadosAceptacion.append(estado2)
                 for alfabeto in automata.get("Alfabeto"):
                     self.Alfabeto.append(alfabeto)
                 for transicion in automata.get("Transiciones"):
@@ -89,6 +91,7 @@ class Automata():
         self.imprimirTransiciones()
         self.imprimirEstados()
         print(self.Alfabeto)
+        print(self.estadosAceptacion)
         
     def invertirTransiciones(self):
         for transicion in self.ListaTransiciones:
@@ -105,5 +108,6 @@ class Automata():
             
     def borrarTransicion(self, dato):
         for transicion in self.ListaTransiciones:
-            if transicion.origen == dato or transicion.destino == dato:
+            if (transicion.origen == dato or transicion.destino == dato):
                 self.ListaTransiciones.remove(transicion)
+                self.borrarTransicion(dato)
