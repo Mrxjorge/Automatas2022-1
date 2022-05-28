@@ -1,34 +1,34 @@
 [{  "Estados": ["4","5","6"],
-    "Alfabeto": ["c","d"],
+    "Alfabeto": ["a","b"],
     "Transiciones" : [
         {
             "origen" : "4",
-            "con" : "d",
+            "con" : "b",
             "destino" : "5"
         },
         {
             "origen" : "4",
-            "con" : "c",
+            "con" : "a",
             "destino" : "4"
         },
         {
             "origen" : "5",
-            "con" : "c",
+            "con" : "a",
             "destino" : "6"
         },
         {
             "origen" : "5",
-            "con" : "d",
+            "con" : "b",
             "destino" : "6"
         },
         {
             "origen" : "6",
-            "con" : "c",
+            "con" : "a",
             "destino" : "4"
         },
         {
             "origen" : "6",
-            "con" : "d",
+            "con" : "b",
             "destino" : "6"
         }
     ],

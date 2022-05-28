@@ -1,3 +1,4 @@
+from typing import List
 from Controlador.Automata import *
 
 class Operaciones():
@@ -32,7 +33,7 @@ class Operaciones():
         destinos = []
         origenes = []
         estadosInaccesibles = []
-        for transicion in automata.ListaTransicionesSinCiclos:
+        for transicion in automata.ListaTransiciones:
             if transicion.getDisponible() and (transicion.getOrigen() != transicion.getDestino()):
                 destinos.append(transicion.getDestino())
                 origenes.append(transicion.getOrigen())
@@ -68,5 +69,14 @@ class Operaciones():
             automata.ingresarTransicion(value.getDato(), "ES", "L")
         automata.ObtenerO("ES").estadoAceptacion = True
         
-    # def unionAutomatas(self, autoA: Automata, autoB: Automata) -> Automata:
+    def unionAutomatas(self, autoA: Automata, autoB: Automata) -> Automata:
+        autoA.completar()
+        autoB.completar()
+        listaConcat:List[str] = []
+        Out: Automata = Automata()
+        for estadoA in autoA.ListaEstados:
+            for estadoB in autoB.ListaEstados:
+                listaConcat.append(f"{estadoA.getDato()}{estadoB.getDato()}")
+                
+        print(listaConcat)
         

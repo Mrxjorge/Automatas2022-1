@@ -2,7 +2,6 @@ class Estado():
 
     def __init__(self, dato):
         self.dato = dato
-        self.listaAdyacentes = []
         self.estadoAceptacion = False
         self.estadoInicial = False
 
@@ -11,12 +10,6 @@ class Estado():
 
     def setDato(self, dato):
         self.dato = dato
-
-    def getlistaAdyacentes(self):
-        return self.listaAdyacentes
-
-    def setlistaAdyacentes(self, listaAdyacentes):
-        self.listaAdyacentes = listaAdyacentes
 
     def getEstadoAceptacion(self):
         return self.estadoAceptacion

@@ -1,5 +1,6 @@
 import json
 from collections import deque
+from typing import List
 
 from Modelo.Estado import *
 from Modelo.Transicion import *
@@ -8,9 +9,8 @@ from copy import copy  # para realizar copias de objetos
 class Automata():
 
     def __init__(self):
-        self.ListaEstados = []
-        self.ListaTransiciones = []
-        self.ListaTransicionesSinCiclos = []
+        self.ListaEstados: List[Estado] = []
+        self.ListaTransiciones: List[Transicion] = []
         self.Alfabeto = []
         self.estadosAceptacion = []
         self.ruta = ''
@@ -49,9 +49,6 @@ class Automata():
         if not self.verificarTransicion(Origen, Destino, Valor, self.ListaTransiciones):
             if self.verificarEstado(Origen, self.ListaEstados) and self.verificarEstado(Destino, self.ListaEstados) and (Valor in self.Alfabeto or Valor == "L"):
                 self.ListaTransiciones.append(Transicion(Origen, Destino, Valor))
-                self.ListaTransicionesSinCiclos.append(Transicion(Origen, Destino, Valor))
-                self.ObtenerO(Origen).getlistaAdyacentes().append(
-                    Destino)
                 # print(f"Agregando transición: {Valor}")
                 # agrego la adyacencia
 
@@ -126,3 +123,57 @@ class Automata():
         for estado in self.ListaEstados:
             if estado.getEstadoAceptacion():
                 self.estadosAceptacion.append(estado.getDato())
+                
+    def obtenerEstadosIncompletos(self) -> List[str]:
+        Out: List[str] = []
+        for estado in self.ListaEstados:
+            salidas = []
+            for transicion in self.ListaTransiciones:
+                if(transicion.getOrigen() == estado.getDato()):
+                    salidas.append(transicion.getValor())
+            for letra in self.Alfabeto:
+                if not letra in salidas:
+                    Out.append(estado.getDato())
+                    break
+        return Out
+    
+    def obtenerSalidas(self, estado: Estado) -> List[str]:
+        salidas: List[str] = []
+        for transicion in self.ListaTransiciones:
+            if transicion.getOrigen() == estado.getDato():
+                salidas.append(transicion.getValor())
+        return salidas
+    
+    def obtenerSalidasFaltantes(self, estado: Estado) -> List[str]:
+        salidas = self.obtenerSalidas(estado)
+        faltantes: List[str] = []
+        for letra in self.Alfabeto:
+            if not letra in salidas:
+                faltantes.append(letra)
+        return faltantes
+
+    def esCompleto(self) -> bool:
+        for estado in self.ListaEstados:
+            salidas = []
+            for transicion in self.ListaTransiciones:
+                if(transicion.getOrigen() == estado.getDato()):
+                    salidas.append(transicion.getValor())
+            for letra in self.Alfabeto:
+                if not letra in salidas:
+                    return False
+        return True
+    
+    def crearSumidero(self):
+        self.ingresarEstado("Sum")
+        for letra in self.Alfabeto:
+            self.ingresarTransicion("Sum", "Sum", letra)
+    
+    def completar(self):
+        if self.esCompleto(): return
+        self.crearSumidero()
+        incompletos = self.obtenerEstadosIncompletos()
+        for incompleto in incompletos:
+            faltantes = self.obtenerSalidasFaltantes(self.ObtenerO(incompleto))
+            for faltante in faltantes:
+                self.ingresarTransicion(incompleto, "Sum", faltante)
+        self.imprimirAutomata()
