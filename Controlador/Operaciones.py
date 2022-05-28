@@ -72,11 +72,17 @@ class Operaciones():
     def unionAutomatas(self, autoA: Automata, autoB: Automata) -> Automata:
         autoA.completar()
         autoB.completar()
-        listaConcat:List[str] = []
+        listaConcat:List[List[str]] = []
         Out: Automata = Automata()
         for estadoA in autoA.ListaEstados:
+            fila = []
             for estadoB in autoB.ListaEstados:
-                listaConcat.append(f"{estadoA.getDato()}{estadoB.getDato()}")
                 
-        print(listaConcat)
+                fila.append(f"{estadoA.getDato()}-{estadoB.getDato()}")
+            listaConcat.append(fila)
+        for a in listaConcat:
+            for b in a:
+                pareja = b.split("-")
+                
+        # print(listaConcat)
         

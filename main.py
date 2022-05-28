@@ -5,19 +5,14 @@ A = Automata()
 
 A.cargar_automata('Data/automata1.json')
 
-A.completar()
-# print(A.obtenerSalidasFaltantes(A.ListaEstados[2]))
-
-# print(A.esCompleto())
-
 print("-----------------------------------------------")
 
-# B = Automata()
+B = Automata()
 
-# B.cargar_automata('Data/automata2.json')
+B.cargar_automata('Data/automata2.json')
 
 O = Operaciones()
-# O.unionAutomatas(A, B)
+O.unionAutomatas(A, B)
 
 # complemento = O.complemento(A)
 # complemento.imprimirAutomata()
