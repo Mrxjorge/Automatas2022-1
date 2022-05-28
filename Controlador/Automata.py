@@ -10,6 +10,7 @@ class Automata():
     def __init__(self):
         self.ListaEstados = []
         self.ListaTransiciones = []
+        self.ListaTransicionesSinCiclos = []
         self.Alfabeto = []
         self.estadosAceptacion = []
         self.ruta = ''
@@ -48,6 +49,7 @@ class Automata():
         if not self.verificarTransicion(Origen, Destino, Valor, self.ListaTransiciones):
             if self.verificarEstado(Origen, self.ListaEstados) and self.verificarEstado(Destino, self.ListaEstados) and Valor in self.Alfabeto:
                 self.ListaTransiciones.append(Transicion(Origen, Destino, Valor))
+                self.ListaTransicionesSinCiclos.append(Transicion(Origen, Destino, Valor))
                 self.ObtenerO(Origen).getlistaAdyacentes().append(
                     Destino)
                 # agrego la adyacencia

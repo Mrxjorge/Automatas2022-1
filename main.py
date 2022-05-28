@@ -5,6 +5,8 @@ A = Automata()
 
 A.cargar_automata('Data/automata1.json')
 
+print("-----------------------------------------------")
+
 # B = Automata()
 
 # B.cargar_automata('Data/automata2.json')
@@ -19,5 +21,3 @@ O = Operaciones()
 # A.imprimirAutomata()
 
 O.reverso(A)
-print(len(A.ListaEstados))
-# O.verificarEstadosInacccesibles(A)

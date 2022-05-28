@@ -18,7 +18,9 @@ class Operaciones():
                 elif (not estado.getEstadoInicial() and estado.getEstadoAceptacion()):
                     estado.setEstadoAceptacion(False)
                     estado.setEstadoInicial(True)
-            # self.verificarEstadosInacccesibles(automata)
+            inalcanzables = self.verificarEstadosInacccesibles(automata)
+            for estado1 in inalcanzables:
+                automata.borrarEstado(estado1)
         else:
             automata.invertirTransiciones()
             for estado in automata.ListaEstados:
@@ -29,7 +31,9 @@ class Operaciones():
                     estado.setEstadoAceptacion(False)
                     estado.setEstadoInicial(True)
             
+            
         
+        # self.verificarEstadosInacccesibles(automata)
         self.actulizarListaAceptacion(automata)    
         automata.imprimirAutomata()
     
@@ -41,12 +45,33 @@ class Operaciones():
 
     def verificarEstadosInacccesibles(self, automata):
         destinos = []
+        origenes = []
         estadosInaccesibles = []
-        for transicion in automata.ListaTransiciones:
-            if transicion.getDisponible():
+        for transicion in automata.ListaTransicionesSinCiclos:
+            if transicion.getDisponible() and (transicion.getOrigen() != transicion.getDestino()):
                 destinos.append(transicion.getDestino())
+                origenes.append(transicion.getOrigen())
         for estado in automata.ListaEstados:
-            if (estado.getDato() not in destinos) or (estado.getDato() in destinos and estado.getDato()):
+            if (estado.getDato() not in origenes) and (not estado.getEstadoInicial()):
                 estadosInaccesibles.append(estado.getDato())
-        print(estadosInaccesibles)
+        return estadosInaccesibles
+        
+    def ciclo(self, automata, dato):
+        for transicion in automata.ListaTransiciones:
+            if (transicion.getOrigen() == transicion.getDestino()) and (transicion.getOrigen() == dato):
+                return True
+        return False
+
+    def estadoOrigen(self, automata, dato):
+        for transicion in automata.ListaTransiciones:
+            if transicion.getOrigen() == dato:
+                return True
+        return False
+
+    def estadoDestino(self, automata, dato):
+        for transicion in automata.ListaTransiciones:
+            if transicion.getDestino() == dato:
+                return True
+        return False
+
         
