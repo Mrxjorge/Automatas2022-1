@@ -19,3 +19,5 @@ O = Operaciones()
 # A.imprimirAutomata()
 
 O.reverso(A)
+print(len(A.ListaEstados))
+# O.verificarEstadosInacccesibles(A)

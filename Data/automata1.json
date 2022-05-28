@@ -33,6 +33,6 @@
         }
     ],
     "EstadoInicial" : "1",
-    "EstadosAceptacion" : ["2","3"]
+    "EstadosAceptacion" : ["2"]
 }
 ]

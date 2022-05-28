@@ -4,6 +4,7 @@ class Transicion():
         self.origen=Origen
         self.valor = valor
         self.destino = Destino
+        self.disponible = True
 
     def getOrigen(self):
         return self.origen
@@ -14,6 +15,9 @@ class Transicion():
     def getValor(self):
         return self.valor
 
+    def getDisponible(self):
+        return self.disponible
+
     def setOrigen(self, origen):
         self.origen = origen
 
@@ -22,3 +26,6 @@ class Transicion():
 
     def setValor(self, valor):
         self.valor = valor
+
+    def setDisponible(self, disponible):
+        self.disponible = disponible
