@@ -7,9 +7,9 @@ A.cargar_automata('Data/automata1.json')
 
 print("-----------------------------------------------")
 
-# B = Automata()
+B = Automata()
 
-# B.cargar_automata('Data/automata2.json')
+B.cargar_automata('Data/automata2.json')
 
 O = Operaciones()
 
@@ -20,4 +20,4 @@ O = Operaciones()
 # A.borrarEstado('3')
 # A.imprimirAutomata()
 
-O.reverso(A)
+# O.reverso(B)

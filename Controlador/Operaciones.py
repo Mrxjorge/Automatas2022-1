@@ -8,40 +8,25 @@ class Operaciones():
             estado.estadoAceptacion = not estado.estadoAceptacion
         return new
         
-    def reverso(self, automata):
-        if len(automata.estadosAceptacion) == 1:
-            automata.invertirTransiciones()
-            for estado in automata.ListaEstados:
-                if (estado.getEstadoInicial() and not estado.getEstadoAceptacion()):
-                    estado.setEstadoInicial(False)
-                    estado.setEstadoAceptacion(True)
-                elif (not estado.getEstadoInicial() and estado.getEstadoAceptacion()):
-                    estado.setEstadoAceptacion(False)
-                    estado.setEstadoInicial(True)
-            inalcanzables = self.verificarEstadosInacccesibles(automata)
-            for estado1 in inalcanzables:
-                automata.borrarEstado(estado1)
-        else:
-            automata.invertirTransiciones()
-            for estado in automata.ListaEstados:
-                if (estado.getEstadoInicial() and not estado.getEstadoAceptacion()):
-                    estado.setEstadoInicial(False)
-                    estado.setEstadoAceptacion(True)
-                elif (not estado.getEstadoInicial() and estado.getEstadoAceptacion()):
-                    estado.setEstadoAceptacion(False)
-                    estado.setEstadoInicial(True)
-            
-            
-        
-        # self.verificarEstadosInacccesibles(automata)
-        self.actulizarListaAceptacion(automata)    
-        automata.imprimirAutomata()
-    
-    def actulizarListaAceptacion(self, automata):
-        automata.estadosAceptacion.clear()
+    def reverso(self, automata: Automata):
+        automata.actulizarListaAceptacion()
+        if len(automata.estadosAceptacion) > 1:
+            self.singularizarAceptacion(automata)
+            # automata.imprimirTransiciones()
+            # automata.imprimirEstados()
+        automata.invertirTransiciones()
         for estado in automata.ListaEstados:
-            if estado.getEstadoAceptacion():
-                automata.estadosAceptacion.append(estado.getDato())
+            if (estado.getEstadoInicial() and not estado.getEstadoAceptacion()):
+                estado.setEstadoInicial(False)
+                estado.setEstadoAceptacion(True)
+            elif (not estado.getEstadoInicial() and estado.getEstadoAceptacion()):
+                estado.setEstadoAceptacion(False)
+                estado.setEstadoInicial(True)
+        inalcanzables = self.verificarEstadosInacccesibles(automata)
+        for estado1 in inalcanzables:
+            automata.borrarEstado(estado1)
+        automata.actulizarListaAceptacion()
+        automata.imprimirAutomata()
 
     def verificarEstadosInacccesibles(self, automata):
         destinos = []
@@ -74,4 +59,14 @@ class Operaciones():
                 return True
         return False
 
+    def singularizarAceptacion(self, automata: Automata):
+        if(automata.estadosAceptacion.__len__() == 1): return
+        automata.ingresarEstado("ES")
+        for estado in automata.estadosAceptacion:
+            value: Estado = automata.ObtenerO(estado)
+            value.estadoAceptacion = False
+            automata.ingresarTransicion(value.getDato(), "ES", "L")
+        automata.ObtenerO("ES").estadoAceptacion = True
+        
+    # def unionAutomatas(self, autoA: Automata, autoB: Automata) -> Automata:
         

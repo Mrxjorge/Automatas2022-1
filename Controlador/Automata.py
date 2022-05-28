@@ -47,11 +47,12 @@ class Automata():
 
     def ingresarTransicion(self, Origen, Destino, Valor):
         if not self.verificarTransicion(Origen, Destino, Valor, self.ListaTransiciones):
-            if self.verificarEstado(Origen, self.ListaEstados) and self.verificarEstado(Destino, self.ListaEstados) and Valor in self.Alfabeto:
+            if self.verificarEstado(Origen, self.ListaEstados) and self.verificarEstado(Destino, self.ListaEstados) and (Valor in self.Alfabeto or Valor == "L"):
                 self.ListaTransiciones.append(Transicion(Origen, Destino, Valor))
                 self.ListaTransicionesSinCiclos.append(Transicion(Origen, Destino, Valor))
                 self.ObtenerO(Origen).getlistaAdyacentes().append(
                     Destino)
+                # print(f"Agregando transición: {Valor}")
                 # agrego la adyacencia
 
     def ingresarEstado(self, dato):
@@ -67,10 +68,12 @@ class Automata():
         return False
 
     def imprimirEstados(self):
+        print("Estados:")
         for i in range(len(self.ListaEstados)):
             Aceptar = "Estado aceptación" if self.ListaEstados[i].getEstadoAceptacion() else ""
             Inicio = "Estado inicial" if self.ListaEstados[i].getEstadoInicial() else ""
             print(f"Estado : {self.ListaEstados[i].getDato()} - {Aceptar} {Inicio}")
+        print("---------------------------")
 
     def verificarTransicion(self, Origen, Destino, Valor, lista):
         for i in range(len(lista)):
@@ -86,14 +89,18 @@ class Automata():
         return None
 
     def imprimirTransiciones(self):
+        print("Transiciones:")
         for i in range(len(self.ListaTransiciones)):
             print("Origen: {0}  -  Destino: {1}  :  Valor:{2}".format(self.ListaTransiciones[i].getOrigen(), self.ListaTransiciones[i].getDestino(), self.ListaTransiciones[i].getValor()))
+        print("-----------------------------------")
 
     def imprimirAutomata(self):
+        print("Autómata:")
         self.imprimirTransiciones()
         self.imprimirEstados()
         print(self.Alfabeto)
         print(self.estadosAceptacion)
+        print("-----------------------")
         
     def invertirTransiciones(self):
         for transicion in self.ListaTransiciones:
@@ -113,3 +120,9 @@ class Automata():
             if (transicion.origen == dato or transicion.destino == dato):
                 self.ListaTransiciones.remove(transicion)
                 self.borrarTransicion(dato)
+                
+    def actulizarListaAceptacion(self):
+        self.estadosAceptacion.clear()
+        for estado in self.ListaEstados:
+            if estado.getEstadoAceptacion():
+                self.estadosAceptacion.append(estado.getDato())
