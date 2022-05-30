@@ -13,6 +13,7 @@ B.cargar_automata('Data/automata2.json')
 
 O = Operaciones()
 O.unionAutomatas(A, B)
+O.interseccionAutomatas(A, B)
 
 # complemento = O.complemento(A)
 # complemento.imprimirAutomata()

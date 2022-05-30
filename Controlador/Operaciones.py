@@ -70,19 +70,54 @@ class Operaciones():
         automata.ObtenerO("ES").estadoAceptacion = True
         
     def unionAutomatas(self, autoA: Automata, autoB: Automata) -> Automata:
+        for letra in autoA.Alfabeto:
+            if not letra in autoB.Alfabeto: 
+                print("Autómatas no comparten alfabeto")
+                return
         autoA.completar()
         autoB.completar()
-        listaConcat:List[List[str]] = []
+        listaConcat:List[str] = []
         Out: Automata = Automata()
+        Out.Alfabeto = autoA.Alfabeto
         for estadoA in autoA.ListaEstados:
-            fila = []
             for estadoB in autoB.ListaEstados:
-                
-                fila.append(f"{estadoA.getDato()}-{estadoB.getDato()}")
-            listaConcat.append(fila)
+                listaConcat.append(f"{estadoA.getDato()}-{estadoB.getDato()}")
+                Out.ingresarEstado(f"{estadoA.getDato()}{estadoB.getDato()}", estadoA.getEstadoAceptacion() or estadoB.getEstadoAceptacion(), estadoA.getEstadoInicial() and estadoB.getEstadoInicial())
         for a in listaConcat:
-            for b in a:
-                pareja = b.split("-")
-                
-        # print(listaConcat)
+            pareja = a.split("-")
+            for letra in Out.Alfabeto:
+                destinoA = autoA.obtenerDestino(pareja[0], letra)
+                destinoB = autoB.obtenerDestino(pareja[1], letra)
+                origen = pareja[0] + pareja[1]
+                destino = destinoA + destinoB
+                Out.ingresarTransicion(origen, destino, letra)
+        Out.actulizarListaAceptacion()
+        Out.imprimirAutomata()
+        return Out
+    
+    def interseccionAutomatas(self, autoA: Automata, autoB: Automata) -> Automata:
+        for letra in autoA.Alfabeto:
+            if not letra in autoB.Alfabeto: 
+                print("Autómatas no comparten alfabeto")
+                return
+        autoA.completar()
+        autoB.completar()
+        listaConcat:List[str] = []
+        Out: Automata = Automata()
+        Out.Alfabeto = autoA.Alfabeto
+        for estadoA in autoA.ListaEstados:
+            for estadoB in autoB.ListaEstados:
+                listaConcat.append(f"{estadoA.getDato()}-{estadoB.getDato()}")
+                Out.ingresarEstado(f"{estadoA.getDato()}{estadoB.getDato()}", estadoA.getEstadoAceptacion() and estadoB.getEstadoAceptacion(), estadoA.getEstadoInicial() and estadoB.getEstadoInicial())
+        for a in listaConcat:
+            pareja = a.split("-")
+            for letra in Out.Alfabeto:
+                destinoA = autoA.obtenerDestino(pareja[0], letra)
+                destinoB = autoB.obtenerDestino(pareja[1], letra)
+                origen = pareja[0] + pareja[1]
+                destino = destinoA + destinoB
+                Out.ingresarTransicion(origen, destino, letra)
+        Out.actulizarListaAceptacion()
+        Out.imprimirAutomata()
+        return Out
         

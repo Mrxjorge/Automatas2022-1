@@ -1,9 +1,9 @@
 class Estado():
 
-    def __init__(self, dato):
+    def __init__(self, dato, aceptacion:bool = False, inicial:bool = False):
         self.dato = dato
-        self.estadoAceptacion = False
-        self.estadoInicial = False
+        self.estadoAceptacion = aceptacion
+        self.estadoInicial = inicial
 
     def getDato(self):
         return self.dato

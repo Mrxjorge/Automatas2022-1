@@ -44,7 +44,6 @@ class Automata():
                     self.ingresarTransicion(origen, destino, valor)
         self.imprimirAutomata()
 
-
     def ingresarTransicion(self, Origen, Destino, Valor):
         if not self.verificarTransicion(Origen, Destino, Valor, self.ListaTransiciones):
             if self.verificarEstado(Origen, self.ListaEstados) and self.verificarEstado(Destino, self.ListaEstados) and (Valor in self.Alfabeto or Valor == "L"):
@@ -52,15 +51,33 @@ class Automata():
                 # print(f"Agregando transición: {Valor}")
                 # agrego la adyacencia
 
-    def ingresarEstado(self, dato):
+    def ingresarEstado(self, dato, esAceptacion:bool = False, esInicial:bool = False):
         if not self.verificarEstado(dato, self.ListaEstados):
-            self.ListaEstados.append(Estado(dato))
+            if esInicial:
+                if not self.verificarEstadoInicial(dato):
+                    self.ListaEstados.append(Estado(dato, esAceptacion, esInicial))
+                else:
+                    print("Ya existe un estado inicial")
+            else:
+                self.ListaEstados.append(Estado(dato, esAceptacion, esInicial))
         else:
             print("El estado ya existe, intente nuevamente")
 
     def verificarEstado(self, estado, listaEstados):
         for i in range(len(listaEstados)):
             if estado == listaEstados[i].getDato():
+                return True
+        return False
+    
+    def verificarEstadoInicial(self, dato):
+        for estado in self.ListaEstados:
+            if estado.getDato() == dato and estado.getEstadoInicial():
+                return True
+        return False
+    
+    def verificarEstadoAceptacion(self, dato):
+        for estado in self.ListaEstados:
+            if estado.getDato() == dato and estado.getEstadoAceptacion():
                 return True
         return False
 
@@ -84,6 +101,18 @@ class Automata():
             if dato == self.ListaEstados[i].getDato():
                 return self.ListaEstados[i]
         return None
+    
+    def obtenerDestino(self, origen, valor):
+        for transicion in self.ListaTransiciones:
+            if transicion.origen == origen and transicion.valor == valor:
+                return transicion.destino
+        return None
+    
+    def obtenerEstados(self) -> List[str]:
+        Out: List[str] = []
+        for estado in self.ListaEstados:
+            Out.append(estado.getDato())
+        return Out
 
     def imprimirTransiciones(self):
         print("Transiciones:")
@@ -111,7 +140,7 @@ class Automata():
                 self.ListaEstados.remove(estado)
                 self.borrarTransicion(dato)
                 break
-            
+
     def borrarTransicion(self, dato):
         for transicion in self.ListaTransiciones:
             if (transicion.origen == dato or transicion.destino == dato):
