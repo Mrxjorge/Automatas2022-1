@@ -12,14 +12,9 @@ B = Automata()
 B.cargar_automata('Data/automata2.json')
 
 O = Operaciones()
-O.unionAutomatas(A, B)
-O.interseccionAutomatas(A, B)
-
-# complemento = O.complemento(A)
-# complemento.imprimirAutomata()
-
-# A.invertirTransiciones()
-# A.borrarEstado('3')
-# A.imprimirAutomata()
-
+# O.unionAutomatas(A, B)
+# O.interseccionAutomatas(A, B)
+O.complemento(A)
+O.complemento(B)
+# O.reverso(A)
 # O.reverso(B)

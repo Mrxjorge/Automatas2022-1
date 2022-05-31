@@ -25,11 +25,6 @@
             "origen" : "6",
             "con" : "a",
             "destino" : "4"
-        },
-        {
-            "origen" : "6",
-            "con" : "b",
-            "destino" : "6"
         }
     ],
     "EstadoInicial" : "5",

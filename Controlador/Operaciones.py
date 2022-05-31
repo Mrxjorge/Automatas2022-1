@@ -3,18 +3,18 @@ from Controlador.Automata import *
 
 class Operaciones():
 
-    def complemento(self, automata):
+    def complemento(self, automata : Automata):
         new = automata
         for estado in new.ListaEstados:
             estado.estadoAceptacion = not estado.estadoAceptacion
+        new.actulizarListaAceptacion()
+        new.imprimirAutomata()
         return new
         
     def reverso(self, automata: Automata):
         automata.actulizarListaAceptacion()
         if len(automata.estadosAceptacion) > 1:
             self.singularizarAceptacion(automata)
-            # automata.imprimirTransiciones()
-            # automata.imprimirEstados()
         automata.invertirTransiciones()
         for estado in automata.ListaEstados:
             if (estado.getEstadoInicial() and not estado.getEstadoAceptacion()):
@@ -66,7 +66,7 @@ class Operaciones():
         for estado in automata.estadosAceptacion:
             value: Estado = automata.ObtenerO(estado)
             value.estadoAceptacion = False
-            automata.ingresarTransicion(value.getDato(), "ES", "L")
+            automata.ingresarTransicion("ES" , value.getDato(), "L")
         automata.ObtenerO("ES").estadoAceptacion = True
         
     def unionAutomatas(self, autoA: Automata, autoB: Automata) -> Automata:

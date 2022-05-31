@@ -42,14 +42,13 @@ class Automata():
                     destino = transicion.get('destino')
                     valor = transicion.get('con')
                     self.ingresarTransicion(origen, destino, valor)
+        self.completar()
         self.imprimirAutomata()
 
     def ingresarTransicion(self, Origen, Destino, Valor):
         if not self.verificarTransicion(Origen, Destino, Valor, self.ListaTransiciones):
             if self.verificarEstado(Origen, self.ListaEstados) and self.verificarEstado(Destino, self.ListaEstados) and (Valor in self.Alfabeto or Valor == "L"):
                 self.ListaTransiciones.append(Transicion(Origen, Destino, Valor))
-                # print(f"Agregando transición: {Valor}")
-                # agrego la adyacencia
 
     def ingresarEstado(self, dato, esAceptacion:bool = False, esInicial:bool = False):
         if not self.verificarEstado(dato, self.ListaEstados):
